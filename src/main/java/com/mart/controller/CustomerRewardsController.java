@@ -1,6 +1,5 @@
 package com.mart.controller;
 
-import com.mart.domain.CustomerRewardResponse;
 import com.mart.service.RewardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

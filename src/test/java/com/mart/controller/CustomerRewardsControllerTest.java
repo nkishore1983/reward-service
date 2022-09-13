@@ -10,6 +10,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {RewardsAppApplication.class},
@@ -25,7 +27,8 @@ class CustomerRewardsControllerTest {
     @Test
     void retrieveRewards() {
         //given
-        String url = "http://localhost:"+port+"/customers/2/rewards";
+        Integer customerId = 2;
+        String url = String.format("http://localhost:%s/customers/%s/rewards", port, customerId);
         //when
         ResponseEntity<CustomerRewardResponse> response = restTemplate.getForEntity(url, CustomerRewardResponse.class);
         //then
@@ -36,7 +39,8 @@ class CustomerRewardsControllerTest {
     @Test
     void retrieveRewardsInvalidCustomer() {
         //given
-        String url = "http://localhost:"+port+"/customers/12345/rewards";
+        Integer customerId = 12345;
+        String url = String.format("http://localhost:%s/customers/%s/rewards", port, customerId);
         //when
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         //then

@@ -28,6 +28,11 @@ public class RewardService {
     private static final BigDecimal HUNDRED = BigDecimal.valueOf(100.0);
     private static final BigDecimal FIFTY = BigDecimal.valueOf(50.0);
 
+    /**
+     * This method calculates rewards for each month as well as the total rewards.
+     * @param customerId
+     * @return
+     */
     @ElapsedTime
     public CustomerRewardResponse getRewards(BigInteger customerId) {
         log.info("Calculating Rewards for customer: {}", customerId);
@@ -42,6 +47,13 @@ public class RewardService {
         return customerRewardResponse;
     }
 
+    /**
+     * Logic to calculate the reward points per transaction.
+     * If purchase amount > 100$, then points = 50 + (amount - 100)*2.0
+     * If purchase amount < 100$, then points = (amount - 50)*1.0
+     * @param transaction
+     * @return
+     */
     private BigDecimal calculatePoints(Transaction transaction) {
         BigDecimal rewardPoints = BigDecimal.ZERO;
         try {
@@ -49,7 +61,7 @@ public class RewardService {
             if (purchaseAmount.compareTo(HUNDRED) > 0) {
                 rewardPoints = rewardPoints.add(twoPointRewardsFn.apply(transaction.getPurchaseAmount()));
             } else if (purchaseAmount.compareTo(FIFTY) > 0) {
-                rewardPoints = rewardPoints.add(purchaseAmount.subtract(FIFTY));
+                rewardPoints = rewardPoints.add(purchaseAmount.subtract(FIFTY).multiply(BigDecimal.ONE));
             }
         } catch (Exception ex) {
             throw new RewardCalcException("Error while calculating reward points", ex);

@@ -26,6 +26,12 @@ import java.util.UUID;
 @Slf4j
 public class LoggerAspect {
 
+    /**
+     * This method intercepts all the incoming requests and create the unique correlation id if it is not provided by the client
+     * @param jp
+     * @return
+     * @throws Throwable
+     */
     @Around("(execution(* com.mart.controller..*.*(..)))")
     public Object trackingInfoAdvise(ProceedingJoinPoint jp) throws Throwable {
         try {
@@ -41,11 +47,20 @@ public class LoggerAspect {
         }
     }
 
+    /**
+     * After the request is processed, the thread local variables(in MDC) are cleared
+     */
     @After("(execution(* com.mart.controller..*.*(..)))")
     public void cleanupAdvise() {
         MDC.clear();
     }
 
+    /**
+     * This is used to log the time taken by each method
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
     @Around("@annotation(com.mart.annotation.ElapsedTime)")
     public Object performanceLogger(ProceedingJoinPoint joinPoint) throws Throwable{
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
