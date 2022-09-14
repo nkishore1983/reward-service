@@ -19,5 +19,4 @@ public class CustomerRewardResponse implements Serializable {
     private BigInteger customerId;
     private Map<Month, BigDecimal> monthlyRewards;
     private BigDecimal totalRewardPoints;
-    private String errorMessage;
 }

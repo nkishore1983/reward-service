@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.OffsetDateTime;
@@ -134,5 +136,27 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(21.82).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+    }
+
+    @Test
+    void testCalculatePointsWhenAmountIs50(){
+        //given
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(50.00));
+        //when
+        BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
+        //then
+        assert points != null;
+        assertEquals(BigDecimal.valueOf(0.0).compareTo(points), 0);
+    }
+
+    @Test
+    void testCalculatePointsWhenAmountIsGreaterThan100(){
+        //given
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(120.00));
+        //when
+        BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
+        //then
+        assert points != null;
+        assertEquals(BigDecimal.valueOf(90.0).compareTo(points), 0);
     }
 }
