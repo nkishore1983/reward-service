@@ -150,13 +150,57 @@ class RewardServiceTest {
     }
 
     @Test
-    void testCalculatePointsWhenAmountIsGreaterThan100(){
+    void testCalculatePointsWhenAmountIsLessThan50(){
         //given
-        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(120.00));
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(16.0));
         //when
         BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
         //then
         assert points != null;
-        assertEquals(BigDecimal.valueOf(90.0).compareTo(points), 0);
+        assertEquals(BigDecimal.valueOf(0.0).compareTo(points), 0);
+    }
+
+    @Test
+    void testCalculatePointsWhenAmountIsGreaterThan100(){
+        //given
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(115.0));
+        //when
+        BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
+        //then
+        assert points != null;
+        assertEquals(BigDecimal.valueOf(80.0).compareTo(points), 0);
+    }
+
+    @Test
+    void testCalculatePointsWhenAmountIsLessThan100(){
+        //given
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(93.0));
+        //when
+        BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
+        //then
+        assert points != null;
+        assertEquals(BigDecimal.valueOf(43.0).compareTo(points), 0);
+    }
+
+    @Test
+    void testCalculatePointsWhenAmountIsGreaterThan1000(){
+        //given
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(1112.0));
+        //when
+        BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
+        //then
+        assert points != null;
+        assertEquals(BigDecimal.valueOf(2074.0).compareTo(points), 0);
+    }
+
+    @Test
+    void testCalculatePointsWhenAmountIsLessThan1000(){
+        //given
+        Transaction tx_1 = TestUtils.createTransaction(1, OffsetDateTime.now().minusMonths(1L), BigDecimal.valueOf(623.0));
+        //when
+        BigDecimal points = ReflectionTestUtils.invokeMethod(underTest, "calculatePoints", tx_1);
+        //then
+        assert points != null;
+        assertEquals(BigDecimal.valueOf(1096.0).compareTo(points), 0);
     }
 }
