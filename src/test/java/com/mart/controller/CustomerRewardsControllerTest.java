@@ -28,7 +28,7 @@ class CustomerRewardsControllerTest {
     void retrieveRewards() {
         //given
         Integer customerId = 2;
-        String url = String.format("http://localhost:%s/customers/%s/rewards", port, customerId);
+        String url = String.format("http://localhost:%s/api/v1/rewards/%s/lastThreeMonthRewards", port, customerId);
         //when
         ResponseEntity<CustomerRewardResponse> response = restTemplate.getForEntity(url, CustomerRewardResponse.class);
         //then
@@ -40,7 +40,7 @@ class CustomerRewardsControllerTest {
     void retrieveRewardsInvalidCustomer() {
         //given
         Integer customerId = 12345;
-        String url = String.format("http://localhost:%s/customers/%s/rewards", port, customerId);
+        String url = String.format("http://localhost:%s/api/v1/rewards/%s/lastThreeMonthRewards", port, customerId);
         //when
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         //then

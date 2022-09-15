@@ -15,13 +15,13 @@ import java.math.BigInteger;
 @Slf4j
 @RestController
 @Validated
-@RequestMapping("/customers")
+@RequestMapping("/api/v1/rewards")
 public class CustomerRewardsController {
 
     @Autowired
     private RewardService rewardService;
 
-    @GetMapping(value = "/{customerId}/rewards")
+    @GetMapping(value = "/{customerId}/lastThreeMonthRewards")
     public ResponseEntity<?> retrieveRewards(@PathVariable BigInteger customerId) throws Exception{
         var response = rewardService.getRewards(customerId);
         return ResponseEntity.ok(response);
