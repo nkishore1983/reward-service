@@ -30,6 +30,7 @@ public class RewardService {
 
     /**
      * This method calculates rewards for each month as well as the total rewards.
+     *
      * @param customerId
      * @return
      */
@@ -37,11 +38,15 @@ public class RewardService {
     public CustomerRewardResponse getRewards(BigInteger customerId) {
         log.info("Calculating Rewards for customer: {}", customerId);
         CustomerRewardResponse customerRewardResponse = CustomerRewardResponse.builder().build();
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(String.format("Customer with id: %s not found", customerId)));
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(String.format("Customer with id: %s not found", customerId)));
         customerRewardResponse.setFirstName(customer.getFirstName());
         customerRewardResponse.setLastName(customer.getLastName());
-        Map<Month, List<Transaction>> monthlyTransactions = customer.getTransactions().stream().collect(Collectors.groupingBy(p -> p.getTransactionDate().getMonth(), Collectors.toList()));
-        Map<Month, BigDecimal> monthlyRewardPoints = monthlyTransactions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream().map(this::calculatePoints).reduce(BigDecimal.ZERO, BigDecimal::add)));
+        Map<Month, List<Transaction>> monthlyTransactions = customer.getTransactions().stream()
+                .collect(Collectors.groupingBy(p -> p.getTransactionDate().getMonth(), Collectors.toList()));
+        Map<Month, BigDecimal> monthlyRewardPoints = monthlyTransactions.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+                        .map(this::calculatePoints).reduce(BigDecimal.ZERO, BigDecimal::add)));
         customerRewardResponse.setMonthlyRewards(monthlyRewardPoints);
         customerRewardResponse.setTotalRewardPoints(monthlyRewardPoints.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add));
         return customerRewardResponse;
@@ -51,6 +56,7 @@ public class RewardService {
      * Logic to calculate the reward points per transaction.
      * If purchase amount > 100$, then points = 50 + (amount - 100)*2.0
      * If purchase amount < 100$, then points = (amount - 50)*1.0
+     *
      * @param transaction
      * @return
      */

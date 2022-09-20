@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {RewardsAppApplication.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CustomerRewardsControllerTest {
+class CustomerRewardsControllerITTest {
 
     @Autowired
     protected TestRestTemplate restTemplate;

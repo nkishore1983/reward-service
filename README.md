@@ -1,3 +1,8 @@
+Technologies and Tools used:<br/>
+Java 13, Spring Boot<br/>
+Database: H2<br/>
+IDE: Intellij
+
 1. Run the command mvn spring-boot:run
 2. after the server starts, from your postman or any rest client or browser, 
 hit the end point localhost:8080/customers/1/rewards

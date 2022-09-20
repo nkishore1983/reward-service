@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +57,7 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(310.0).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @DisplayName("Test Reward Service for purchase amount < 100")
@@ -71,6 +74,7 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(5.0).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @DisplayName("Test Reward Service for purchase amount = 100")
@@ -87,6 +91,7 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(50.0).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @DisplayName("Test Reward Service for purchase amount = 50")
@@ -103,6 +108,7 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(0.0).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @DisplayName("Test Reward Service for purchase amount = 550")
@@ -119,6 +125,7 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(950.0).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @DisplayName("Test Reward Service which yield fraction points")
@@ -136,6 +143,7 @@ class RewardServiceTest {
         CustomerRewardResponse customerRewardResponse = underTest.getRewards(customerId);
         //then
         assertEquals(BigDecimal.valueOf(21.82).compareTo(customerRewardResponse.getTotalRewardPoints()), 0);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @Test
