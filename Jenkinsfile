@@ -13,11 +13,6 @@ pipeline{
             }
         }
         stage('Testing Stage'){
-            when{
-                expression{
-                    BRANCH_NAME == 'dev'
-                }
-            }
             steps{
                 withMaven(maven: 'maven-for-jenkins'){
                     sh 'mvn test'
