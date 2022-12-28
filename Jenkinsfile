@@ -34,13 +34,13 @@ pipeline{
     }
     post{
         always{
-            //
+            echo 'All stages are completed'
         }
         failure{
-            //
+            echo 'Failure while deploying the pipeline'
         }
         success{
-            //
+            echo 'Deployment successful'
         }
     }
 }
