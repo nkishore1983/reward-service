@@ -15,5 +15,6 @@ http://localhost:8080/customers/12345/rewards
 Notes:
 Integration and unit tests are run when we issue the command
 mvn clean install
+----
 
 
