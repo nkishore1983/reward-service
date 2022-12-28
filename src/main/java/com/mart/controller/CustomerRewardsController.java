@@ -1,5 +1,6 @@
 package com.mart.controller;
 
+import com.mart.domain.CustomerRewardResponse;
 import com.mart.service.RewardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class CustomerRewardsController {
 
     @GetMapping(value = "/{customerId}/lastThreeMonthRewards")
     public ResponseEntity<?> retrieveRewards(@PathVariable BigInteger customerId) {
-        var response = rewardService.getRewards(customerId);
+        CustomerRewardResponse response = rewardService.getRewards(customerId);
         return ResponseEntity.ok(response);
     }
 }
