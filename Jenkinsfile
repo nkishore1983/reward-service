@@ -4,7 +4,7 @@ pipeline{
         stage('Compile Stage'){
             steps{
                 withMaven(maven: 'maven-for-jenkins'){
-                    echo "compiling version ${NEW_VERSION}"
+                    echo "compiling"
                     sh 'mvn clean compile'
                 }
             }
